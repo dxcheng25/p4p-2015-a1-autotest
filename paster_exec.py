@@ -15,7 +15,7 @@ class paster_executor(td.Thread):
 #create a thread to execute paster
 #kill the process if timeout
 #return exit code
-def autotest_driver(ep, arg_i, arg_t, timeout):
+def executor_driver(ep, arg_i, arg_t, timeout):
 	thread = paster_executor(ep, arg_i, arg_t)
 	thread.start()
 

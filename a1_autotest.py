@@ -44,7 +44,7 @@ def execute_paster(pu, exe_name, img_seq, output_file, timeout):
 
 	print '\texecuting ' + cmd
 
-	ret = paster_exec.autotest_driver(pu+'/a1/bin/'+exe_name, img_seq, num_t, timeout)
+	ret = paster_exec.executor_driver(pu+'/a1/bin/'+exe_name, img_seq, num_t, timeout)
 	if ret != 0:
 		print '\tfailed ' + str(ret)
 		output_file.log_exec(cmd, 'EXECUTION_ERROR '+str(ret))
