@@ -1,5 +1,6 @@
 import subprocess as sp
 import threading as td
+import sys
 
 class paster_executor(td.Thread):
 	def __init__(self, ep, arg_i, arg_t):
@@ -24,5 +25,6 @@ def executor_driver(ep, arg_i, arg_t, timeout):
 		#time out
 		thread.pp.terminate()
 		thread.join()
+		return sys.maxint
 
 	return thread.pp.returncode
