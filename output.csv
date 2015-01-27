@@ -1,22 +1,22 @@
 x22cheng_makerr,MAKE_ERROR
 x22cheng_wrongres,MAKE_SUCCESS
-,paster_parallel -i1 -t14,EXECUTION_SUCCESS,MATCH
-,paster_nbio -i1 -t17,EXECUTION_SUCCESS,MATCH
-,paster_parallel -i2 -t18,EXECUTION_SUCCESS,NOT MATCH
-,paster_nbio -i2 -t18,EXECUTION_SUCCESS,NOT MATCH
-,paster_parallel -i3 -t11,EXECUTION_SUCCESS,NOT MATCH
-,paster_nbio -i3 -t17,EXECUTION_SUCCESS,NOT MATCH
+,paster_parallel -i1 -t12,EXECUTION_SUCCESS,MATCH
+,paster_nbio -i1 -t19,EXECUTION_SUCCESS,MATCH
+,paster_parallel -i2 -t17,EXECUTION_SUCCESS,NOT MATCH
+,paster_nbio -i2 -t7,EXECUTION_SUCCESS,NOT MATCH
+,paster_parallel -i3 -t10,EXECUTION_SUCCESS,NOT MATCH
+,paster_nbio -i3 -t4,EXECUTION_SUCCESS,NOT MATCH
 x22cheng_segfault,MAKE_SUCCESS
-,paster_parallel -i1 -t8,EXECUTION_ERROR -6
-,paster_nbio -i1 -t7,EXECUTION_ERROR -11
-,paster_parallel -i2 -t9,EXECUTION_ERROR -6
-,paster_nbio -i2 -t5,EXECUTION_ERROR -11
-,paster_parallel -i3 -t14,EXECUTION_ERROR -6
-,paster_nbio -i3 -t8,EXECUTION_ERROR -11
+,paster_parallel -i1 -t6,EXECUTION_ERROR -6
+,paster_nbio -i1 -t18,EXECUTION_ERROR -11
+,paster_parallel -i2 -t8,EXECUTION_ERROR -6
+,paster_nbio -i2 -t16,EXECUTION_ERROR -6
+,paster_parallel -i3 -t4,EXECUTION_ERROR -6
+,paster_nbio -i3 -t11,EXECUTION_ERROR -11
 x22cheng,MAKE_SUCCESS
-,paster_parallel -i1 -t11,EXECUTION_SUCCESS,MATCH
-,paster_nbio -i1 -t14,EXECUTION_SUCCESS,MATCH
-,paster_parallel -i2 -t12,EXECUTION_SUCCESS,MATCH
-,paster_nbio -i2 -t13,EXECUTION_SUCCESS,MATCH
+,paster_parallel -i1 -t15,EXECUTION_SUCCESS,MATCH
+,paster_nbio -i1 -t5,EXECUTION_SUCCESS,MATCH
+,paster_parallel -i2 -t13,EXECUTION_SUCCESS,MATCH
+,paster_nbio -i2 -t5,EXECUTION_SUCCESS,MATCH
 ,paster_parallel -i3 -t5,EXECUTION_SUCCESS,MATCH
-,paster_nbio -i3 -t9,EXECUTION_SUCCESS,MATCH
+,paster_nbio -i3 -t11,EXECUTION_SUCCESS,MATCH
