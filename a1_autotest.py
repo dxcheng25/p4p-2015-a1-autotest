@@ -3,13 +3,17 @@ import assign_builder, paster_exec, png_comparator
 from result_logger import *
  
 def a1_autotest(path_to_userids):	
+	#grab all users' repo roots
 	pus = glob.glob( path_to_userids+'/*' )
 	output_file = result_logger('autotest_all.csv')
 
 	for pu in pus:
+		#grep userid
 		uid = os.path.basename( pu )
+		#.../userid/a1/
 		pua1 = pu+'/a1/'
-		pua1bin = pua1+'/bin/'
+		#.../userid/a1/bin
+		pua1bin = pua1+'bin/'
 
 		print 'entering ' + pu
 		output_file.set_sublogger( result_logger(pua1+'autotest.csv') )
@@ -17,6 +21,7 @@ def a1_autotest(path_to_userids):
 
 		sys.stdout.write('\tbuilding...')
 		sys.stdout.flush()
+		#execute make under .../userid/a1/
 		ret = assign_builder.build_assign(pua1)
 
 		if ret != 0:
@@ -32,9 +37,11 @@ def a1_autotest(path_to_userids):
 		exe_nbio = 'paster_nbio'
 
 		for i in range(1,4):
+			#.../userid/a1/bin/paster_parallel -i[1:3]
 			execute_paster( pua1bin+exe_para, exe_para, i, output_file, 30)
 			remove_output()
 
+			#.../userid/a1/bin/paster_nbio -i[1:3]
 			execute_paster( pua1bin+exe_nbio, exe_nbio, i, output_file, 30)
 			remove_output()
 
@@ -47,6 +54,7 @@ def remove_output():
 
 
 def execute_paster(pu_exe, exe_name, img_seq, output_file, timeout):
+	#number of t is randomly generated within [4,20]
 	num_t = random.randrange(4, 20)
 	cmd = exe_name+' -i'+str(img_seq)+' -t'+str(num_t)
 
@@ -54,14 +62,17 @@ def execute_paster(pu_exe, exe_name, img_seq, output_file, timeout):
 
 	ret = paster_exec.executor_driver(pu_exe, img_seq, num_t, timeout)
 	if ret == sys.maxint:
+		#execution timeout
 		print '\ttimeout'
 		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'TIMEOUT')
 		return
 	elif ret != 0:
+		#execution failure
 		print '\tfailed ' + str(ret)
 		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'CODE:'+str(ret))
 		return
 	else:
+		#execution success
 		sys.stdout.write('\tsuccess')
 		sys.stdout.flush()
 		output_file.log_exec(cmd, 'EXECUTION_SUCCESS')	
@@ -86,6 +97,7 @@ if __name__ == '__main__':
 		sys.exit(-1)
 
 	
+	#enclosing directory containing all userids
 	path_to_userids = sys.argv[1]
 	a1_autotest(path_to_userids)
 
