@@ -60,6 +60,11 @@ def execute_paster(pu_exe, exe_name, img_seq, output_file, timeout):
 
 	print '\texecuting ' + cmd
 
+	if not os.path.exists( pu_exe ):
+		print '\texecutable not found'
+		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'EXECUTABLE_NOT_FOUND')
+		return
+
 	ret = paster_exec.executor_driver(pu_exe, img_seq, num_t, timeout)
 	if ret == sys.maxint:
 		#execution timeout
