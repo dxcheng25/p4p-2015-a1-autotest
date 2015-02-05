@@ -10,7 +10,8 @@ class paster_executor(td.Thread):
 		td.Thread.__init__(self)
 
 	def run(self):
-		self.pp = sp.Popen([self.ep, '-i', str(self.arg_i), '-t', str(self.arg_t)], stdout=sp.PIPE, stderr=sp.PIPE)
+		#self.pp = sp.Popen([self.ep, '-i', str(self.arg_i), '-t', str(self.arg_t)], stdout=sp.PIPE, stderr=sp.PIPE)
+		self.pp = sp.Popen([self.ep, '-t', str(self.arg_t)], stdout=sp.PIPE, stderr=sp.PIPE)
 		self.pp.communicate()
 
 #create a thread to execute paster

@@ -11,11 +11,11 @@ def a1_autotest(path_to_userids):
 		#grep userid
 		uid = os.path.basename( pu )
 		#.../userid/a1/
-		pua1 = pu+'/a1/'
+		pua1 = pu+'/'
 		#.../userid/a1/bin
 		pua1bin = pua1+'bin/'
 
-		print 'entering ' + pu
+		print 'entering ' + pua1
 		output_file.set_sublogger( result_logger(pua1+'autotest.csv') )
 		output_file.log_uid(uid)
 
@@ -36,14 +36,15 @@ def a1_autotest(path_to_userids):
 		exe_para = 'paster_parallel'
 		exe_nbio = 'paster_nbio'
 
-		for i in range(1,4):
-			#.../userid/a1/bin/paster_parallel -i[1:3]
-			execute_paster( pua1bin+exe_para, exe_para, i, output_file, 30)
-			remove_output()
+		#ignore -i argument due to an error in the provided source code
+		#for i in range(1,4):
+		#.../userid/a1/bin/paster_parallel -i[1:3]
+		execute_paster( pua1bin+exe_para, exe_para, 1, output_file, 30)
+		remove_output()
 
-			#.../userid/a1/bin/paster_nbio -i[1:3]
-			execute_paster( pua1bin+exe_nbio, exe_nbio, i, output_file, 30)
-			remove_output()
+		#.../userid/a1/bin/paster_nbio -i[1:3]
+		execute_paster( pua1bin+exe_nbio, exe_nbio, 1, output_file, 30)
+		remove_output()
 
 	output_file.logger_close()
 
@@ -55,8 +56,10 @@ def remove_output():
 
 def execute_paster(pu_exe, exe_name, img_seq, output_file, timeout):
 	#number of t is randomly generated within [4,20]
-	num_t = random.randrange(4, 20)
-	cmd = exe_name+' -i'+str(img_seq)+' -t'+str(num_t)
+	num_t = random.randrange(4, 16)
+
+	#cmd = exe_name+' -i'+str(img_seq)+' -t'+str(num_t)
+	cmd = exe_name+' -t'+str(num_t)
 
 	print '\texecuting ' + cmd
 
@@ -81,6 +84,11 @@ def execute_paster(pu_exe, exe_name, img_seq, output_file, timeout):
 		sys.stdout.write('\tsuccess')
 		sys.stdout.flush()
 		output_file.log_exec(cmd, 'EXECUTION_SUCCESS')	
+	
+	if not os.path.exists("output.png"):
+		print '\tno output'
+		output_file.log_cmp('NO OUTPUT')
+		return
 
 	ret = png_comparator.compare_pngs("output.png", str(img_seq)+".png")
 
