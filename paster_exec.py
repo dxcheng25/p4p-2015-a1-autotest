@@ -1,6 +1,6 @@
 import subprocess as sp
 import threading as td
-import sys
+import sys, datetime
 
 class paster_executor(td.Thread):
 	def __init__(self, ep, arg_i, arg_t):
@@ -19,13 +19,17 @@ class paster_executor(td.Thread):
 #return exit code
 def executor_driver(ep, arg_i, arg_t, timeout):
 	thread = paster_executor(ep, arg_i, arg_t)
+    
+    # start the executor in a separate thread, record execution time
+	st = datetime.datetime.now()
 	thread.start()
-
 	thread.join(timeout)
+	et = datetime.datetime.now()
+
 	if thread.is_alive():
 		#time out
 		thread.pp.terminate()
 		thread.join()
-		return sys.maxint
+		return sys.maxint, -1
 
-	return thread.pp.returncode
+	return thread.pp.returncode, (et-st).total_seconds()

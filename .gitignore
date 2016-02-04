@@ -1,2 +1,4 @@
 *.pyc
 *.csv
+tmp_output/
+wrong_output/

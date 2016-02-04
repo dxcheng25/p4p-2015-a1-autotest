@@ -3,7 +3,7 @@ import assign_builder, paster_exec, png_comparator
 from result_logger import *
 
 tester_root = os.path.abspath( os.path.dirname(__file__) )
- 
+sig_table = {-11: 'SIGSEGV', -6: 'SIGABRT', -15: 'SIGTERM'}
 def a1_autotest(path_to_userids):	
 	#grab all users' repo roots
 	pus = glob.glob( path_to_userids+'/*' )
@@ -92,7 +92,7 @@ def execute_paster(userid, pu_exe, exe_name, img_seq, output_file, timeout):
 		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'EXECUTABLE_NOT_FOUND')
 		return
 
-	ret = paster_exec.executor_driver(pu_exe, img_seq, num_t, timeout)
+	ret, exectime = paster_exec.executor_driver(pu_exe, img_seq, num_t, timeout)
 	if ret == sys.maxint:
 		#execution timeout
 		print '\ttimeout'
@@ -100,14 +100,19 @@ def execute_paster(userid, pu_exe, exe_name, img_seq, output_file, timeout):
 		return
 	elif ret != 0:
 		#execution failure
-		print '\tfailed ' + str(ret)
-		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'CODE:'+str(ret))
+		if ret in sig_table.keys():
+			sig = sig_table[ret]
+		else:
+			sig = ret
+
+		print '\tfailed signal: ' + str(sig)
+		output_file.log_exec(cmd, 'EXECUTION_FAILURE', 'SIGNAL:'+str(sig))
 		return
 	else:
 		#execution success
-		sys.stdout.write('\tsuccess')
+		sys.stdout.write('\tsuccess, execution time: ' + str(exectime) + ' sec')
 		sys.stdout.flush()
-		output_file.log_exec(cmd, 'EXECUTION_SUCCESS')	
+		output_file.log_exec(cmd, 'EXECUTION_SUCCESS, execution time: ' + str(exectime) + ' sec')	
 
 	pngs = glob.glob('*.png')
 
